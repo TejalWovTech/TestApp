@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {Column as Col, Row} from 'react-native-flexbox-grid';
 
 class Test extends Component {
@@ -20,7 +20,6 @@ class Test extends Component {
     fetch('https://hn.algolia.com/api/v1/search_by_date?tags=story&page=0')
       .then(response => response.json())
       .then(responseJson => {
-        console.log('response==>', JSON.stringify(responseJson.hits));
         this.setState({
           dataSource: responseJson.hits,
         });
@@ -28,7 +27,6 @@ class Test extends Component {
       .catch(error => console.log(error)); //to catch the errors if any
   }
   componentDidMount() {
-    console.log('componentDidMount');
     this.interval = setInterval(() => {
       this.callApi();
     }, 1000);
@@ -36,13 +34,10 @@ class Test extends Component {
 
   renderItem(item) {
     const data = item;
-    const param = this.state.dataSource;
-    console.log('renderItem', JSON.stringify(param.length));
     const created_at = data.item.created_at,
       title = data.item.title,
       url = data.item.url,
       author = data.item.author;
-    console.log('all data', author, url, title, created_at);
 
     return (
       <View style={{marginTop: 30}}>
@@ -59,45 +54,35 @@ class Test extends Component {
           style={{borderWidth: 0.3, width: '100%'}}>
           <Row size={12}>
             <Col sm={4} md={4} lg={4}>
-              <Text style={{fontWeight: 'bold', fontSize: 15, marginLeft: 10}}>
-                Title:-
-              </Text>
+              <Text style={styles.headText}>Title:-</Text>
             </Col>
             <Col sm={8} md={8} lg={8}>
-              <Text style={{fontSize: 15, marginLeft: 10, marginRight: 20}}>
-                {title}
-              </Text>
+              <Text style={{fontSize: 15, marginLeft: 15}}>{title}</Text>
             </Col>
           </Row>
           <Row size={12}>
             <Col sm={4} md={4} lg={4}>
-              <Text style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                Url:-
-              </Text>
+              <Text style={styles.headText}>Url:-</Text>
             </Col>
             <Col sm={8} md={8} lg={8}>
-              <Text style={{fontSize: 15, marginLeft: 10}}>{url}</Text>
+              <Text style={{fontSize: 15, marginLeft: 15}}>{url}</Text>
             </Col>
           </Row>
 
           <Row size={12}>
             <Col sm={4} md={4} lg={4}>
-              <Text style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                Created_at:-
-              </Text>
+              <Text style={styles.headText}>Created_at:-</Text>
             </Col>
             <Col sm={8} md={8} lg={8}>
-              <Text style={{fontSize: 15, marginLeft: 10}}>{created_at}</Text>
+              <Text style={{fontSize: 15, marginLeft: 15}}>{created_at}</Text>
             </Col>
           </Row>
           <Row size={12}>
             <Col sm={4} md={4} lg={4}>
-              <Text style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                Author:-
-              </Text>
+              <Text style={styles.headText}>Author:-</Text>
             </Col>
             <Col sm={8} md={8} lg={8}>
-              <Text style={{fontSize: 15, marginLeft: 10}}>{author}</Text>
+              <Text style={{fontSize: 15, marginLeft: 15}}>{author}</Text>
             </Col>
           </Row>
         </TouchableOpacity>
@@ -106,7 +91,6 @@ class Test extends Component {
   }
 
   render() {
-    const param = this.state.dataSource;
     return (
       <View style={{marginTop: 40, alignItems: 'center'}}>
         {this.state.jsonRow ? (
@@ -116,42 +100,27 @@ class Test extends Component {
             keyExtractor={item => item.id}
           />
         ) : (
-          <View style={{marginTop: 30, alignItems: 'center'}}>
+          <View style={{marginTop: 30, alignItems: 'center', borderWidth: 0.3}}>
             <Row size={12}>
               <Col sm={4} md={4} lg={4}>
-                <Text
-                  style={{fontWeight: 'bold', fontSize: 15, marginLeft: 10}}>
-                  Title:-
-                </Text>
+                <Text style={styles.titleText}>Title:-</Text>
               </Col>
               <Col sm={8} md={8} lg={8}>
-                <Text
-                  style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                  {this.state.title}
-                </Text>
+                <Text style={styles.titleText}>{this.state.title}</Text>
               </Col>
             </Row>
-            <Row size={12}>
+            <Row size={12} style={{marginTop: 10}}>
               <Col sm={4} md={4} lg={4}>
-                <Text
-                  style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                  Url:-
-                </Text>
+                <Text style={styles.titleText}>Url:-</Text>
               </Col>
               <Col sm={8} md={8} lg={8}>
-                <Text
-                  style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                  {this.state.url}
-                </Text>
+                <Text style={styles.titleText}>{this.state.url}</Text>
               </Col>
             </Row>
 
-            <Row size={12}>
+            <Row size={12} style={{marginTop: 10}}>
               <Col sm={4} md={4} lg={4}>
-                <Text
-                  style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                  Created_at:-
-                </Text>
+                <Text style={styles.titleText}>Created_at:-</Text>
               </Col>
               <Col sm={8} md={8} lg={8}>
                 <Text
@@ -161,17 +130,11 @@ class Test extends Component {
               </Col>
             </Row>
             <Row size={12}>
-              <Col sm={4} md={4} lg={4}>
-                <Text
-                  style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                  Author:-
-                </Text>
+              <Col sm={4} md={4} lg={4} style={{marginTop: 10}}>
+                <Text style={styles.titleText}>Author:-</Text>
               </Col>
               <Col sm={8} md={8} lg={8}>
-                <Text
-                  style={{fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-                  {this.state.author}
-                </Text>
+                <Text style={styles.titleText}>{this.state.author}</Text>
               </Col>
             </Row>
           </View>
@@ -182,3 +145,16 @@ class Test extends Component {
 }
 
 export default Test;
+const styles = StyleSheet.create({
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    marginLeft: 10,
+  },
+
+  headText: {
+    fontWeight: 'bold',
+    marginLeft: 10,
+    fontSize: 15,
+  },
+});
